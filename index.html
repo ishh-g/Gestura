@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestura — Sign Language Studio</title>
+  
+  <!-- Fonts: Bodoni Moda (Didone serif) + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6.4 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/modules.css">
+</head>
+<body>
+
+<div id="app-root">
+
+  <!-- ==========================================
+       Top Navigation Bar
+       ========================================== -->
+  <nav class="navbar">
+    <div class="brand-container" onclick="window.location.hash='home'">
+      <div class="brand-logo-badge">
+        <i class="fa-solid fa-hands-asl-interpreting"></i>
+      </div>
+      <div class="brand-info">
+        <span class="brand-title">Gestura</span>
+        <span class="brand-subtitle">sign language studio</span>
+      </div>
+    </div>
+
+    <!-- Desktop Nav Menu -->
+    <ul class="nav-menu">
+      <li class="nav-link-item"><a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> home</a></li>
+      <li class="nav-link-item"><a href="#learn" class="nav-link"><i class="fa-solid fa-book-open"></i> learn</a></li>
+      <li class="nav-link-item"><a href="#recognize" class="nav-link"><i class="fa-solid fa-camera"></i> practice</a></li>
+      <li class="nav-link-item"><a href="#translator" class="nav-link"><i class="fa-solid fa-language"></i> phrases</a></li>
+      <li class="nav-link-item"><a href="#emergency" class="nav-link"><i class="fa-solid fa-truck-medical text-rose"></i> help</a></li>
+      <li class="nav-link-item" id="nav-item-dashboard"><a href="#dashboard" class="nav-link"><i class="fa-solid fa-chart-pie"></i> progress</a></li>
+      <li class="nav-link-item" id="nav-item-admin" style="display:none;"><a href="#admin" class="nav-link"><i class="fa-solid fa-shield-halved"></i> studio</a></li>
+    </ul>
+
+    <!-- Nav Actions Right -->
+    <div class="nav-actions">
+      <!-- Search -->
+      <div class="search-bar-wrap">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="global-search-input" class="search-input" placeholder="Search signs, lessons...">
+      </div>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle-btn" class="icon-btn" onclick="AppModule.toggleTheme()" title="Toggle Dark/Light Mode">
+        <i class="fa-solid fa-moon text-amber"></i>
+      </button>
+
+      <!-- Certificate Button -->
+      <button class="btn btn-secondary btn-sm" onclick="CertificateModule.openModal()" title="View Certificate of Completion">
+        <i class="fa-solid fa-award text-amber"></i>
+      </button>
+
+      <!-- User Profile Dropdown / Login -->
+      <div id="nav-user-btn" class="user-profile-btn" style="display:none;" onclick="AuthModule.logout()" title="Click to Logout">
+        <div class="user-avatar" id="nav-user-avatar">AJ</div>
+        <div style="display:flex; flex-direction:column; line-height:1.1;">
+          <span class="user-name" id="nav-user-name">Alex</span>
+          <span class="user-role-badge" id="nav-user-role">Student</span>
+        </div>
+        <i class="fa-solid fa-right-from-bracket text-muted" style="font-size:0.75rem;"></i>
+      </div>
+
+      <button id="nav-login-btn" class="btn btn-yellow btn-sm" onclick="AuthModule.openAuthModal()">
+        <i class="fa-solid fa-user-plus"></i> Login
+      </button>
+
+      <!-- Mobile Hamburger -->
+      <button class="icon-btn mobile-toggle-btn" onclick="AppModule.toggleMobileDrawer()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="mobile-drawer">
+    <div class="drawer-content">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="brand-container">
+          <div class="brand-logo-badge" style="width:34px; height:34px; font-size:1rem;"><i class="fa-solid fa-hands"></i></div>
+          <span class="brand-title" style="font-size:1.15rem;">SignAI</span>
+        </div>
+        <button class="icon-btn" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem;">
+        <li><a href="#home" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="#learn" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-book-open"></i> Learn</a></li>
+        <li><a href="#recognize" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-camera"></i> Recognize</a></li>
+        <li><a href="#translator" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-language"></i> Translator</a></li>
+        <li><a href="#emergency" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-truck-medical text-rose"></i> Emergency</a></li>
+        <li><a href="#dashboard" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="#ai-innovation" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-brain text-amber"></i> AI Concept</a></li>
+        <li><a href="#admin" class="nav-link" onclick="AppModule.closeMobileDrawer()"><i class="fa-solid fa-shield-halved"></i> Admin</a></li>
+      </ul>
+      <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-subtle);">
+        <button class="btn btn-yellow" style="width:100%;" onclick="window.location.hash='recognize'; AppModule.closeMobileDrawer();">
+          <i class="fa-solid fa-camera"></i> Practice in the mirror
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       Main View Container (Single Page App)
+       ========================================== -->
+  <main class="main-wrapper">
+
+    <!-- 1. Landing / Home Page -->
+    <section id="view-home" class="view-section active-view">
+      <div class="hero-wrapper">
+        <div class="hero-layout">
+          <div>
+            <div class="hero-tag">
+              <span class="pulse-dot"></span>
+              <span>sign language studio</span>
+            </div>
+            <h1 class="hero-title">
+              Hands that <span class="gradient-text">speak,</span> gently.
+            </h1>
+            <p class="hero-subtitle">
+              Learn everyday signs, practice in the mirror, and turn gestures into words and voice.
+            </p>
+            <div class="hero-actions">
+              <a href="#recognize" class="btn btn-yellow btn-lg">
+                <i class="fa-solid fa-camera"></i> open the mirror
+              </a>
+              <a href="#learn" class="btn btn-secondary btn-lg">
+                <i class="fa-solid fa-graduation-cap text-amber"></i> study the signs
+              </a>
+            </div>
+            <div class="hero-stats-row">
+              <div class="hero-stat-item">
+                <h3>live</h3>
+                <p>practice mirror</p>
+              </div>
+              <div class="hero-stat-item">
+                <h3>0–9</h3>
+                <p>numbers</p>
+              </div>
+              <div class="hero-stat-item">
+                <h3>hello +</h3>
+                <p>everyday phrases</p>
+              </div>
+              <div class="hero-stat-item">
+                <h3>a–z</h3>
+                <p>study cards</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's sign — a small window into the studio -->
+          <div class="hero-visual-card today-card">
+            <div class="floating-badge floating-badge-1">
+              <i class="fa-solid fa-circle-check" style="color: var(--accent-yellow-text); font-size:1.15rem;"></i>
+              <div>
+                <div style="font-size:0.82rem; font-weight:700;">HELLO · ready to practice</div>
+              </div>
+            </div>
+
+            <div class="today-eyebrow">Today's sign</div>
+            <div class="today-word">Hello</div>
+            <div class="today-hand" aria-hidden="true"><i class="fa-solid fa-hand"></i></div>
+            <div class="today-phonetic">Open hand · Wave gently</div>
+            <div class="today-actions">
+              <button class="btn btn-sm today-hear" onclick="AppModule.speakText('Hello')" aria-label="Hear hello spoken aloud">
+                <i class="fa-solid fa-volume-high"></i> Hear it
+              </button>
+              <a href="#learn" class="btn btn-sm today-hear">All signs</a>
+            </div>
+            <a href="#recognize" class="today-go">Practice this sign <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div class="home-block">
+        <div class="how-band">
+          <span class="section-eyebrow">How it works</span>
+          <div class="section-header-text">
+            <h2>Learn. Practice. Understand.</h2>
+          </div>
+          <div class="how-grid">
+            <div class="how-step">
+              <div class="how-num">01</div>
+              <h3>LEARN</h3>
+              <p>Discover new signs through visual lessons — numbers, phrases, and the alphabet.</p>
+            </div>
+            <div class="how-step">
+              <div class="how-num">02</div>
+              <h3>PRACTICE</h3>
+              <p>Use the live mirror to practice your gestures and hear them spoken aloud.</p>
+            </div>
+            <div class="how-step">
+              <div class="how-num">03</div>
+              <h3>IMPROVE</h3>
+              <p>Track your progress and revisit difficult signs until they feel natural.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start learning -->
+      <div class="home-block">
+        <div class="section-header">
+          <div class="section-header-text">
+            <span class="section-eyebrow">Start learning</span>
+            <h2>Pick a path</h2>
+          </div>
+        </div>
+
+        <div class="quick-grid">
+          <div class="quick-card quick-card-live" onclick="window.location.hash='recognize'" style="cursor:pointer;" role="link" tabindex="0" aria-label="Open the live mirror" onkeydown="if(event.key==='Enter')window.location.hash='recognize'">
+            <div class="quick-glyph"><i class="fa-solid fa-video"></i></div>
+            <div class="quick-title">Live mirror</div>
+            <div class="quick-desc">Practice signs in real time with gentle guidance.</div>
+            <span class="quick-go"><span class="dot"></span> Open mirror →</span>
+          </div>
+
+          <div class="quick-card" onclick="window.location.hash='learn'" style="cursor:pointer;" role="link" tabindex="0" aria-label="Learn numbers" onkeydown="if(event.key==='Enter')window.location.hash='learn'">
+            <div class="quick-glyph">0–9</div>
+            <div class="quick-title">Numbers</div>
+            <div class="quick-desc">Count from zero to nine, one hand shape at a time.</div>
+            <span class="quick-go"><span class="dot"></span> Learn numbers →</span>
+          </div>
+
+          <div class="quick-card" onclick="window.location.hash='translator'" style="cursor:pointer;" role="link" tabindex="0" aria-label="Learn everyday phrases" onkeydown="if(event.key==='Enter')window.location.hash='translator'">
+            <div class="quick-glyph"><i class="fa-solid fa-comments"></i></div>
+            <div class="quick-title">Phrases</div>
+            <div class="quick-desc">Everyday expressions — hello, thanks, yes, please.</div>
+            <span class="quick-go"><span class="dot"></span> Learn phrases →</span>
+          </div>
+
+          <div class="quick-card" onclick="window.location.hash='learn'" style="cursor:pointer;" role="link" tabindex="0" aria-label="Study the alphabet" onkeydown="if(event.key==='Enter')window.location.hash='learn'">
+            <div class="quick-glyph">A–Z</div>
+            <div class="quick-title">Alphabet</div>
+            <div class="quick-desc">Study each letter with clear hand-shape guides.</div>
+            <span class="quick-go"><span class="dot"></span> Study A–Z →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Your learning journey (live data) -->
+      <div class="home-block">
+        <div class="journey-card" id="home-journey">
+          <div>
+            <span class="section-eyebrow" style="color: var(--accent-yellow-bright);">Your learning journey</span>
+            <h2 id="journey-headline">Welcome back</h2>
+            <p class="journey-sub" id="journey-sub">Your progress appears here as you learn.</p>
+            <div class="progress-track journey-bar" style="margin-top:1.1rem;" role="progressbar" aria-label="Learning progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="journey-bar-wrap">
+              <div class="progress-fill" id="journey-bar"></div>
+            </div>
+            <div class="journey-stats">
+              <div class="journey-stat"><b id="journey-learned">–</b><span>signs learned</span></div>
+              <div class="journey-stat"><b id="journey-left">–</b><span>to explore</span></div>
+              <div class="journey-stat"><b id="journey-streak">–</b><span>day streak</span></div>
+            </div>
+          </div>
+          <div class="journey-side">
+            <div class="journey-pct" id="journey-pct">–</div>
+            <div style="margin-top:0.9rem; display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap;">
+              <a href="#dashboard" class="btn btn-sm btn-yellow">View progress</a>
+              <a href="#learn" class="btn btn-sm today-hear">Keep learning</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Practice mirror -->
+    <section id="view-recognize" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>the mirror</h2>
+          <p>Show your hand. Hold a sign steady and it appears below.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-secondary btn-sm" onclick="RecognizerModule.stopCamera()"><i class="fa-solid fa-rotate-left"></i> reset</button>
+        </div>
+      </div>
+
+      <div class="recognizer-grid">
+        <!-- Viewport -->
+        <div class="app-card" style="padding:1.25rem;">
+          <div class="camera-viewport-card">
+            <video id="camera-video" autoplay playsinline muted></video>
+            <canvas id="detection-canvas"></canvas>
+
+            <div class="camera-hud-overlay">
+              <div class="hud-top-bar">
+                <span class="hud-status-badge" id="hud-status">
+                  <i class="fa-solid fa-circle text-muted"></i> mirror resting
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div class="camera-controls-bar">
+            <button id="btn-start-camera" class="btn btn-yellow btn-lg" onclick="RecognizerModule.startCamera()">
+              <i class="fa-solid fa-video"></i> start mirror
+            </button>
+            <button id="btn-stop-camera" class="btn btn-danger btn-lg" style="display:none;" onclick="RecognizerModule.stopCamera()">
+              <i class="fa-solid fa-stop"></i> stop
+            </button>
+            
+            <label class="btn btn-secondary btn-lg" style="cursor:pointer;">
+              <i class="fa-solid fa-upload text-amber"></i> try a photo
+              <input type="file" accept="image/*" style="display:none;" onchange="RecognizerModule.triggerUploadDemo(this)">
+            </label>
+          </div>
+        </div>
+
+        <!-- Reading Card -->
+        <div class="recognition-result-card">
+          <div class="app-card" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3>what I see</h3>
+                  <p>hello · 0–9 · everyday phrases</p>
+                </div>
+                <span class="pill-badge pill-yellow"><i class="fa-solid fa-hand"></i> mirror</span>
+              </div>
+
+              <div class="detected-sign-display">
+                <div class="detected-sign-letter" id="detected-letter">--</div>
+                <div class="detected-sign-meaning" id="detected-name">at rest…</div>
+                <p class="text-muted" id="detected-meaning" style="font-size:0.85rem; margin-top:0.4rem;">
+                  Press start, then show an open hand for hello.
+                </p>
+              </div>
+
+              <div class="confidence-meter-container" style="margin-top:1.5rem;">
+                <div class="confidence-meta">
+                  <span>steadiness</span>
+                  <span id="confidence-val" style="color:var(--accent-yellow-text); font-weight:800; font-size:1.1rem;">0%</span>
+                </div>
+                <div class="progress-track" style="height:10px;">
+                  <div class="progress-fill" id="confidence-bar" style="width:0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1.5rem;">
+              <button id="btn-tts-sign" class="btn btn-yellow" style="width:100%;" disabled onclick="RecognizerModule.speakCurrentSign()">
+                <i class="fa-solid fa-volume-high"></i> say it aloud
+              </button>
+              <button class="btn btn-secondary" style="width:100%;" onclick="window.location.hash='translator'">
+                <i class="fa-solid fa-arrow-right text-amber"></i> collect phrases
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Sign-to-Text Translator Module -->
+    <section id="view-translator" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Sign-to-Text &amp; Voice Translator</h2>
+          <p>Continuous gesture stream transcription. Buffers characters and gestures into grammatical English sentences with immediate voice synthesis.</p>
+        </div>
+      </div>
+
+      <div class="translator-workspace">
+        <!-- Translation Output Panel -->
+        <div class="app-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Live Sentence Buffer</h3>
+              <p>Active Transcription Stream</p>
+            </div>
+            <span class="pill-badge pill-yellow"><i class="fa-solid fa-microphone-lines"></i> Speech Ready</span>
+          </div>
+
+          <div class="sentence-stream-box">
+            <div>
+              <span id="translator-stream-text">HELLO HOW ARE YOU TODAY</span>
+              <span class="sentence-cursor"></span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">
+              <span><i class="fa-solid fa-circle-nodes text-amber"></i> Language: English (ASL Translated)</span>
+              <span>Latency: 28ms</span>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:0.75rem; margin-top:1.25rem; flex-wrap:wrap;">
+            <button id="btn-toggle-translator" class="btn btn-yellow" onclick="TranslatorModule.startStream()">
+              <i class="fa-solid fa-play"></i> Start Continuous Translate
+            </button>
+            <button class="btn btn-secondary" onclick="TranslatorModule.speakCurrent()">
+              <i class="fa-solid fa-volume-high text-amber"></i> Speak Aloud
+            </button>
+            <button class="btn btn-secondary" onclick="TranslatorModule.copyToClipboard()">
+              <i class="fa-solid fa-copy"></i> Copy
+            </button>
+            <button class="btn btn-secondary" onclick="TranslatorModule.clearCurrent()">
+              <i class="fa-solid fa-eraser"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Translation History Ledger -->
+        <div class="app-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Translation History Ledger</h3>
+              <p>Stored session transcripts</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="TranslatorModule.exportTranscript()">
+              <i class="fa-solid fa-file-export text-amber"></i> Export .TXT
+            </button>
+          </div>
+
+          <div class="translation-history-list" id="translation-history-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Sign Language Learning Module -->
+    <section id="view-learn" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Interactive Sign Language Academy</h2>
+          <p>Master American Sign Language (ASL) alphabets, daily vocabulary, and emergency phrases with visual hand sign cards and quizzes.</p>
+        </div>
+        <button class="btn btn-yellow btn-lg" onclick="LearningModule.startQuiz()">
+          <i class="fa-solid fa-play"></i> Take Practice Quiz
+        </button>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="learning-filter-tabs">
+        <button class="filter-tab-btn active" data-category="all" onclick="LearningModule.setFilter('all')">All Lessons (38)</button>
+        <button class="filter-tab-btn" data-category="alphabets" onclick="LearningModule.setFilter('alphabets')">Alphabets (A-Z)</button>
+        <button class="filter-tab-btn" data-category="greetings" onclick="LearningModule.setFilter('greetings')">Greetings &amp; Manners</button>
+        <button class="filter-tab-btn" data-category="daily" onclick="LearningModule.setFilter('daily')">Daily Living &amp; Food</button>
+        <button class="filter-tab-btn" data-category="emergency" onclick="LearningModule.setFilter('emergency')">Emergency &amp; Medical</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="sign-cards-grid" id="learning-cards-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- 5. Emergency Communication Module -->
+    <section id="view-emergency" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2 style="color:var(--accent-rose);"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Communication Board</h2>
+          <p>High-contrast, accessible tactile buttons for critical situations. Instantly speaks high-priority voice messages, sounds sirens, and triggers visual alerts.</p>
+        </div>
+        <div style="display:flex; gap:0.75rem;">
+          <button id="btn-siren-toggle" class="btn btn-yellow" onclick="EmergencyModule.toggleSiren()">
+            <i class="fa-solid fa-bullhorn"></i> Sound Emergency Siren
+          </button>
+        </div>
+      </div>
+
+      <div id="emergency-active-banner" class="app-card" style="display:none; background:var(--accent-rose); color:white; margin-bottom:1.5rem; padding:1rem 1.5rem;">
+        <!-- Banner alert content -->
+      </div>
+
+      <div class="emergency-matrix">
+        <button class="emergency-tile-btn tile-sos" onclick="EmergencyModule.triggerEmergency('I NEED HELP IMMEDIATELY. PLEASE ASSIST ME.', 'CRITICAL SOS')">
+          <i class="fa-solid fa-hand-holding-medical"></i>
+          <span>HELP! (SOS)</span>
+          <span style="font-size:0.75rem; opacity:0.9;">Loud Audio Alert</span>
+        </button>
+
+        <button class="emergency-tile-btn tile-medical" onclick="EmergencyModule.triggerEmergency('MEDICAL EMERGENCY! PLEASE CALL AN AMBULANCE IMMEDIATELY.', 'MEDICAL SOS')">
+          <i class="fa-solid fa-truck-medical"></i>
+          <span>MEDICAL EMERGENCY</span>
+          <span style="font-size:0.75rem; opacity:0.9;">Call Ambulance / Doctor</span>
+        </button>
+
+        <button class="emergency-tile-btn tile-police" onclick="EmergencyModule.triggerEmergency('POLICE ASSISTANCE REQUIRED! I AM IN DANGER.', 'POLICE SOS')">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>CALL POLICE</span>
+          <span style="font-size:0.75rem; opacity:0.9;">Security &amp; Safety</span>
+        </button>
+
+        <button class="emergency-tile-btn tile-fire" onclick="EmergencyModule.triggerEmergency('FIRE EMERGENCY! EVACUATION REQUIRED.', 'FIRE SOS')">
+          <i class="fa-solid fa-fire"></i>
+          <span>FIRE EMERGENCY</span>
+          <span style="font-size:0.75rem; opacity:0.9;">Fire Brigade Dispatch</span>
+        </button>
+
+        <button class="emergency-tile-btn tile-family" onclick="EmergencyModule.triggerEmergency('PLEASE CONTACT MY FAMILY. I NEED ASSISTANCE.', 'FAMILY SOS')">
+          <i class="fa-solid fa-users"></i>
+          <span>CALL FAMILY</span>
+          <span style="font-size:0.75rem; opacity:0.9;">Emergency Contacts</span>
+        </button>
+
+        <button class="emergency-tile-btn tile-assist" onclick="EmergencyModule.triggerEmergency('I AM DEAF AND MUTE. I COMMUNICATE USING SIGN LANGUAGE. PLEASE HELP ME.', 'COMMUNICATION ASSIST')">
+          <i class="fa-solid fa-hands-asl-interpreting"></i>
+          <span>NEED ASSISTANCE</span>
+          <span style="font-size:0.75rem; opacity:0.9;">Explain Deaf/Mute Status</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 6. Student Dashboard -->
+    <section id="view-dashboard" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Welcome back, <span id="dash-welcome-name">Alex Johnson</span>!</h2>
+          <p>Track your sign language learning milestones, practice accuracy curves, and daily streaks.</p>
+        </div>
+        <span class="pill-badge pill-yellow" id="dash-level-badge">Intermediate (Level 4)</span>
+      </div>
+
+      <!-- KPI Metrics Grid -->
+      <div class="grid grid-cols-4" style="margin-bottom:1.5rem;">
+        <div class="app-card card-hover-lift">
+          <div class="card-header">
+            <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Completed Lessons</span>
+            <i class="fa-solid fa-book-bookmark text-primary"></i>
+          </div>
+          <h2 id="dash-lessons-count" style="font-size:2rem;">18 / 26</h2>
+          <div class="progress-track" style="margin-top:0.75rem;">
+            <div class="progress-fill" id="dash-lessons-bar" style="width:69%;"></div>
+          </div>
+        </div>
+
+        <div class="app-card card-hover-lift">
+          <div class="card-header">
+            <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Average Accuracy</span>
+            <i class="fa-solid fa-bullseye text-emerald"></i>
+          </div>
+          <h2 id="dash-accuracy-val" style="font-size:2rem; color:var(--accent-emerald);">94.2%</h2>
+          <span class="pill-badge pill-emerald" style="margin-top:0.5rem; font-size:0.65rem;">+4.8% this week</span>
+        </div>
+
+        <div class="app-card card-hover-lift">
+          <div class="card-header">
+            <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Current Streak</span>
+            <i class="fa-solid fa-fire text-amber"></i>
+          </div>
+          <h2 id="dash-streak-val" style="font-size:2rem; color:var(--accent-yellow);">7 Days 🔥</h2>
+          <p class="text-muted" style="font-size:0.75rem; margin-top:0.5rem;">Daily Goal: 15 mins/day</p>
+        </div>
+
+        <div class="app-card card-hover-lift">
+          <div class="card-header">
+            <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Certification</span>
+            <i class="fa-solid fa-award text-amber"></i>
+          </div>
+          <h2 style="font-size:1.6rem; color:var(--accent-yellow);">Eligible ★</h2>
+          <button class="btn btn-yellow btn-sm" style="margin-top:0.5rem;" onclick="CertificateModule.openModal()">
+            <i class="fa-solid fa-download"></i> Get Certificate
+          </button>
+        </div>
+      </div>
+
+      <!-- Chart & Recommended Actions -->
+      <div class="grid grid-cols-12">
+        <div class="app-card" style="grid-column: span 8;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Weekly Learning &amp; Accuracy Velocity</h3>
+              <p>Daily performance metrics over the last 7 days</p>
+            </div>
+            <span class="pill-badge pill-yellow">Chart.js Analytics</span>
+          </div>
+          <div style="height:300px; position:relative;">
+            <canvas id="dashboard-progress-canvas"></canvas>
+          </div>
+        </div>
+
+        <div class="app-card" style="grid-column: span 4;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Recommended Next</h3>
+              <p>Tailored AI suggestions</p>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div class="app-card" style="padding:1rem; background:var(--bg-surface-elevated); cursor:pointer;" onclick="window.location.hash='learn'">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong>Emergency Vocabulary</strong>
+                <span class="pill-badge pill-rose" style="font-size:0.65rem;">Priority</span>
+              </div>
+              <p class="text-muted" style="font-size:0.8rem; margin-top:0.25rem;">Doctor, Medicine, Hospital</p>
+            </div>
+
+            <div class="app-card" style="padding:1rem; background:var(--bg-surface-elevated); cursor:pointer;" onclick="window.location.hash='recognize'">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong>Camera Landmark Practice</strong>
+                <span class="pill-badge pill-yellow" style="font-size:0.65rem;">Practice</span>
+              </div>
+              <p class="text-muted" style="font-size:0.8rem; margin-top:0.25rem;">Test hand posture live with AI</p>
+            </div>
+
+            <button class="btn btn-yellow" style="width:100%; margin-top:0.5rem;" onclick="LearningModule.startQuiz()">
+              <i class="fa-solid fa-play"></i> Start Daily 5-Min Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Admin Dashboard -->
+    <section id="view-admin" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>System Administration &amp; AI Telemetry</h2>
+          <p>Monitor inference query volume, model accuracy curves, user registrations, and dataset distribution.</p>
+        </div>
+        <span class="pill-badge pill-emerald"><i class="fa-solid fa-server"></i> System Healthy (99.9% Uptime)</span>
+      </div>
+
+      <!-- Admin KPIs -->
+      <div class="grid grid-cols-4" style="margin-bottom:1.5rem;">
+        <div class="app-card text-center card-hover-lift">
+          <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Total Registered Users</span>
+          <h2 style="font-size:2rem; margin-top:0.35rem;">1,428</h2>
+          <span class="pill-badge pill-primary" style="font-size:0.65rem;">+14% this month</span>
+        </div>
+        <div class="app-card text-center card-hover-lift">
+          <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Live Active Sessions</span>
+          <h2 style="font-size:2rem; color:var(--accent-emerald); margin-top:0.35rem;">112</h2>
+          <span class="pill-badge pill-emerald" style="font-size:0.65rem;">Webcam Streams</span>
+        </div>
+        <div class="app-card text-center card-hover-lift">
+          <span class="text-muted" style="font-size:0.85rem; font-weight:600;">AI Inferences Today</span>
+          <h2 style="font-size:2rem; color:var(--accent-yellow); margin-top:0.35rem;">48,920</h2>
+          <span class="pill-badge pill-yellow" style="font-size:0.65rem;">Avg 28ms Latency</span>
+        </div>
+        <div class="app-card text-center card-hover-lift">
+          <span class="text-muted" style="font-size:0.85rem; font-weight:600;">Model Version</span>
+          <h2 style="font-size:2rem; color:var(--accent-purple); margin-top:0.35rem;">V2.4</h2>
+          <span class="pill-badge pill-purple" style="font-size:0.65rem;">MediaPipe + LSTM</span>
+        </div>
+      </div>
+
+      <!-- Admin Charts -->
+      <div class="grid grid-cols-12" style="margin-bottom:1.5rem;">
+        <div class="app-card" style="grid-column: span 7;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Model Architecture Benchmark</h3>
+              <p>Top-1 Validation Accuracy Comparison</p>
+            </div>
+          </div>
+          <div style="height:260px; position:relative;">
+            <canvas id="admin-accuracy-canvas"></canvas>
+          </div>
+        </div>
+
+        <div class="app-card" style="grid-column: span 5;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Training Dataset Composition</h3>
+              <p>109,000 Keypoint Samples</p>
+            </div>
+          </div>
+          <div style="height:260px; position:relative;">
+            <canvas id="admin-dataset-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Management Table -->
+      <div class="app-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>Registered User Management</h3>
+            <p>Role-based access control and student progress records</p>
+          </div>
+          <input type="text" class="search-input" placeholder="Search users..." oninput="AdminModule.renderUserTable(this.value)">
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border-subtle); color:var(--text-muted); font-size:0.8rem; text-transform:uppercase;">
+                <th style="padding:0.75rem;">Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Progress</th>
+                <th>Accuracy</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-table-body">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. AI & Machine Learning Innovation Architecture Section -->
+    <section id="view-ai-innovation" class="view-section">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>AI Architecture &amp; Innovation Methodology</h2>
+          <p>A plain-language breakdown of how a hand becomes a word.</p>
+        </div>
+        <a href="#recognize" class="btn btn-yellow">
+          <i class="fa-solid fa-camera"></i> Try it in the mirror
+        </a>
+      </div>
+
+      <!-- 5-Step Pipeline -->
+      <div class="pipeline-flow">
+        <div class="pipeline-step">
+          <div class="step-number">1</div>
+          <h4>RGB Frame Capture</h4>
+          <p class="text-secondary" style="font-size:0.8rem; margin-top:0.4rem;">Webcam stream @ 60 FPS, normalized to 1280x720 RGB format.</p>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-number">2</div>
+          <h4>Hand Landmark Detection</h4>
+          <p class="text-secondary" style="font-size:0.8rem; margin-top:0.4rem;">MediaPipe extracts 21 3D landmarks (x, y, z) per hand.</p>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-number">3</div>
+          <h4>Coordinate Normalization</h4>
+          <p class="text-secondary" style="font-size:0.8rem; margin-top:0.4rem;">Scale and translation invariance using wrist base as origin (0,0,0).</p>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-number">4</div>
+          <h4>Deep Neural Classifier</h4>
+          <p class="text-secondary" style="font-size:0.8rem; margin-top:0.4rem;">CNN-LSTM network captures spatial joint angles and temporal movement.</p>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-number">5</div>
+          <h4>Translation &amp; Voice Synthesis</h4>
+          <p class="text-secondary" style="font-size:0.8rem; margin-top:0.4rem;">Character sequence decoder + Web Speech API audio output.</p>
+        </div>
+      </div>
+
+      <!-- Architecture Comparison & Confusion Matrix -->
+      <div class="grid grid-cols-2">
+        <div class="app-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Confusion Matrix (Sample 5 Classes)</h3>
+              <p>Test Set Evaluation Metrics</p>
+            </div>
+          </div>
+          <table class="confusion-matrix-table">
+            <thead>
+              <tr>
+                <th>True \ Pred</th>
+                <th>'A'</th>
+                <th>'B'</th>
+                <th>'C'</th>
+                <th>'HELLO'</th>
+                <th>'HELP'</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>'A'</th>
+                <td class="matrix-cell-high">98.4%</td>
+                <td class="matrix-cell-low">0.6%</td>
+                <td class="matrix-cell-low">0.2%</td>
+                <td class="matrix-cell-low">0.4%</td>
+                <td class="matrix-cell-low">0.4%</td>
+              </tr>
+              <tr>
+                <th>'B'</th>
+                <td class="matrix-cell-low">0.3%</td>
+                <td class="matrix-cell-high">97.2%</td>
+                <td class="matrix-cell-low">1.1%</td>
+                <td class="matrix-cell-low">0.8%</td>
+                <td class="matrix-cell-low">0.6%</td>
+              </tr>
+              <tr>
+                <th>'C'</th>
+                <td class="matrix-cell-low">0.1%</td>
+                <td class="matrix-cell-low">0.3%</td>
+                <td class="matrix-cell-high">99.1%</td>
+                <td class="matrix-cell-low">0.3%</td>
+                <td class="matrix-cell-low">0.2%</td>
+              </tr>
+              <tr>
+                <th>'HELLO'</th>
+                <td class="matrix-cell-low">0.2%</td>
+                <td class="matrix-cell-low">0.2%</td>
+                <td class="matrix-cell-low">0.1%</td>
+                <td class="matrix-cell-high">99.4%</td>
+                <td class="matrix-cell-low">0.1%</td>
+              </tr>
+              <tr>
+                <th>'HELP'</th>
+                <td class="matrix-cell-low">0.5%</td>
+                <td class="matrix-cell-low">0.4%</td>
+                <td class="matrix-cell-low">0.2%</td>
+                <td class="matrix-cell-low">0.4%</td>
+                <td class="matrix-cell-high">98.5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="app-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>Hardware &amp; Software Specifications</h3>
+              <p>Deployment Requirements</p>
+            </div>
+          </div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem; font-size:0.9rem;">
+            <li><strong>Frontend:</strong> Modern HTML5, CSS3 Glassmorphism Design System, JavaScript ES6+ (No Node dependencies required).</li>
+            <li><strong>Vision Engine:</strong> Google MediaPipe Hands 21 3D skeletal landmark extraction architecture.</li>
+            <li><strong>Deep Learning Model:</strong> TensorFlow / Keras Spatial 1D-CNN + Bidirectional LSTM.</li>
+            <li><strong>Speech Engine:</strong> W3C Web Speech Synthesis &amp; Web Audio API.</li>
+            <li><strong>Data Visualization:</strong> Chart.js 4.4 CDN.</li>
+            <li><strong>Minimum Client Specs:</strong> Any standard laptop/phone with an HD webcam (720p 30fps) and modern browser (Chrome, Edge, Safari, Firefox).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       Modals
+       ========================================== -->
+
+  <!-- 1. Authentication Modal -->
+  <div id="auth-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>User Authentication</h3>
+        <button class="icon-btn" onclick="AuthModule.closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="event.preventDefault(); AuthModule.login(document.getElementById('auth-email').value, 'password', document.getElementById('auth-role').value);">
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Select Role</label>
+            <select id="auth-role" class="search-input" style="width:100%; border-radius:var(--radius-sm);">
+              <option value="student">Student / Learner</option>
+              <option value="admin">System Administrator</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Email Address</label>
+            <input type="email" id="auth-email" class="search-input" style="width:100%; border-radius:var(--radius-sm);" value="student@example.com" required>
+          </div>
+
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Password</label>
+            <input type="password" class="search-input" style="width:100%; border-radius:var(--radius-sm);" value="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-yellow" style="width:100%;">
+            <i class="fa-solid fa-right-to-bracket"></i> Sign In to SignAI
+          </button>
+        </form>
+
+        <div style="margin-top:1.5rem; padding:0.85rem; background:var(--bg-surface-elevated); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-muted);">
+          <strong>Quick Demo Credentials:</strong><br>
+          • Student: <code>student@example.com</code><br>
+          • Admin: <code>admin@example.com</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Learning Detail Modal -->
+  <div id="learning-detail-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Sign Formation Guide</h3>
+        <button class="icon-btn" onclick="LearningModule.closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="learning-modal-body">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Quiz Modal -->
+  <div id="quiz-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Sign Language Assessment Quiz</h3>
+        <button class="icon-btn" onclick="LearningModule.closeQuizModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="quiz-content-container">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Certificate Modal -->
+  <div id="certificate-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width:850px;">
+      <div class="modal-header">
+        <h3>Certificate of Completion</h3>
+        <button class="icon-btn" onclick="CertificateModule.closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="certificate-preview-box">
+          <canvas id="certificate-canvas"></canvas>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="CertificateModule.closeModal()">Close</button>
+        <button class="btn btn-yellow btn-lg" onclick="CertificateModule.downloadCertificate()">
+          <i class="fa-solid fa-download"></i> Download Official Certificate (PNG)
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       AI Chatbot Floating Tutor Widget
+       ========================================== -->
+  <button class="chatbot-trigger-btn" onclick="ChatbotModule.toggleChat()" title="Open AI Sign Tutor Assistant">
+    <i class="fa-solid fa-robot"></i>
+  </button>
+
+  <div id="chatbot-window" class="chatbot-window">
+    <div class="chat-header">
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <i class="fa-solid fa-robot text-amber"></i>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem;">AI Sign Tutor</div>
+          <div style="font-size:0.7rem; opacity:0.85;"><span class="pulse-dot" style="display:inline-block; width:6px; height:6px; background:#fbbf24;"></span> Online Assistant</div>
+        </div>
+      </div>
+      <button class="icon-btn" style="width:28px; height:28px; background:transparent; border:none; color:white;" onclick="ChatbotModule.toggleChat()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages-container">
+      <div class="chat-msg msg-bot">
+        Hello! 👋 I am your <strong>AI Sign Tutor</strong>. Ask me how to sign any word, how our machine learning model works, or ask for a practice quiz!
+      </div>
+    </div>
+
+    <!-- Quick Suggestions -->
+    <div style="display:flex; gap:0.35rem; padding:0.4rem 0.75rem; background:var(--bg-surface-elevated); overflow-x:auto;">
+      <button class="btn btn-secondary btn-sm" style="font-size:0.7rem; white-space:nowrap;" onclick="ChatbotModule.sendMessage('How to sign HELLO?')">Sign Hello</button>
+      <button class="btn btn-secondary btn-sm" style="font-size:0.7rem; white-space:nowrap;" onclick="ChatbotModule.sendMessage('How does the AI model work?')">AI Model</button>
+      <button class="btn btn-secondary btn-sm" style="font-size:0.7rem; white-space:nowrap;" onclick="LearningModule.startQuiz()">Start Quiz</button>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="chat-input-field" class="search-input" style="flex:1; border-radius:var(--radius-sm);" placeholder="Ask sign tutor..." onkeydown="if(event.key==='Enter') ChatbotModule.sendMessage()">
+      <button class="btn btn-yellow btn-sm" onclick="ChatbotModule.sendMessage()">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Mount -->
+  <div id="toast-container"></div>
+
+  <!-- ==========================================
+       Footer
+       ========================================== -->
+  <footer class="app-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand-container" style="margin-bottom:0.85rem;">
+          <div class="brand-logo-badge" style="width:34px; height:34px; font-size:1.1rem;"><i class="fa-solid fa-hands"></i></div>
+          <span class="brand-title" style="font-size:1.15rem;">Gestura</span>
+        </div>
+        <p class="text-secondary" style="font-size:0.88rem; max-width:320px;">
+          A small studio for learning signs by hand — mirror, cards, and a gentle voice.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Core Modules</h4>
+        <ul>
+          <li><a href="#recognize">AI Camera Recognizer</a></li>
+          <li><a href="#translator">Sign-to-Text Translator</a></li>
+          <li><a href="#learn">Interactive Lessons</a></li>
+          <li><a href="#emergency">Emergency SOS Board</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Dashboards &amp; AI</h4>
+        <ul>
+          <li><a href="#dashboard">Student Analytics</a></li>
+          <li><a href="#admin">Admin Control Panel</a></li>
+          <li><a href="#ai-innovation">AI Architecture &amp; Pipeline</a></li>
+          <li><a href="javascript:void(0)" onclick="CertificateModule.openModal()">Claim Certificate</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Keep exploring</h4>
+        <ul>
+          <li><a href="#learn">Study cards</a></li>
+          <li><a href="#recognize">Practice mirror</a></li>
+          <li><a href="#dashboard">Your progress</a></li>
+          <li><a href="#home">Back to home</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Gestura — a small studio for learning sign language.</div>
+      <div style="display:flex; gap:1rem;">
+        <span><i class="fa-solid fa-code text-amber"></i> HTML5/CSS3/ES6+</span>
+        <span><i class="fa-solid fa-brain text-amber"></i> MediaPipe 3D Landmark Vision</span>
+        <span><i class="fa-solid fa-bolt text-amber"></i> Real-Time Inference</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- External CDN Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Application Modules (Loaded cleanly as standard scripts) -->
+<script src="js/auth.js"></script>
+<script src="js/recognizer.js"></script>
+<script src="js/translator.js"></script>
+<script src="js/learning.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/emergency.js"></script>
+<script src="js/chatbot.js"></script>
+<script src="js/certificate.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
