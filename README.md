@@ -1,55 +1,52 @@
-# AI-Based Sign Language Recognition and Learning System
-> **Final Year Diploma Major Project Submission**  
-> *A full-stack, responsive, viva-ready web application for real-time sign language gesture recognition, text-to-speech translation, and gamified sign language learning.*
+# Gestura — Sign Language Studio
+> *A warm, responsive web application for learning sign language, practicing with a live mirror, translating phrases into speech, and tracking progress.*
 
 ---
 
-## 📌 Project Overview
-Communication barriers between the deaf/mute community and hearing society create significant challenges in education, healthcare, public transit, and emergency response. 
+## Project Overview
+Communication barriers between the deaf and hard-of-hearing community and hearing society create significant challenges in education, healthcare, public transit, and emergency response.
 
-**SignAI System** is an end-to-end web platform that:
-1. **Recognizes Sign Gestures in Real-Time** using standard RGB webcams via Google MediaPipe 21 3D skeletal hand landmarks + neural spatial-temporal classification.
-2. **Translates Continuous Signs into Text & Voice** with Web Speech API audio synthesis.
-3. **Provides an Interactive Sign Learning Academy** covering A-Z alphabets, daily vocabulary, visual flashcards, and timed assessment quizzes.
-4. **Offers an Accessible Emergency SOS Communication Board** with tactile tiles, siren alarms, and speech broadcasting.
-5. **Includes Student & Admin Telemetry Dashboards** with Chart.js analytics, confusion matrix evaluation, and downloadable diploma certification.
-6. **Features Viva Voce Defense Modules** including full SRS documentation, system architecture diagrams, and 20+ exam defense questions & answers.
+**Gestura** is an end-to-end web platform that:
+1. **Reads Sign Gestures in Real-Time** using a standard RGB webcam via 21 hand landmarks and a hold-to-confirm shape reader.
+2. **Turns Signs into Text & Voice** with Web Speech API audio synthesis.
+3. **Teaches Through a Learning Academy** covering A-Z alphabets, numbers 0-10, daily vocabulary, visual flashcards, and timed assessment quizzes.
+4. **Offers an Accessible Help Board** with large tactile tiles, chime alerts, and speech broadcasting.
+5. **Includes Student & Studio Progress Views** with Chart.js analytics and a downloadable certificate of completion.
 
 ---
 
-## 🚀 Key Modules & Features
+## Key Modules & Features
 
-### 1. Landing & Problem Statement Page
-- Hero banner with live pulse indicators, problem statement overview, and objective metrics.
-- 5-stage ML Pipeline overview.
-- Key benefits and societal impact.
+### 1. Landing Page
+- Hero banner with today's sign, practice preview card, and quick learning paths.
+- Learn / Practice / Understand walkthrough.
+- Live learning-journey preview fed by real learner progress.
 
-### 2. Real-Time AI Camera Recognizer (`#recognize`)
+### 2. Live Practice Mirror (`#recognize`)
 - Live webcam integration (`navigator.mediaDevices.getUserMedia`) with mirror viewfinder.
-- Real-time 21-point hand skeleton canvas overlay with joint tracking.
-- Synthetic landmark simulation fallback for demonstration on devices without webcams.
-- Dynamic prediction confidence meter with classification text.
-- One-touch Web Speech Text-to-Speech audio synthesizer.
-- Image & video upload demonstration handler.
+- Real-time hand tracking canvas overlay with a calm label box.
+- Hold-to-confirm reading (Hello, 0-9, Thank You, Yes, No, Please, I Love You).
+- One-touch Web Speech text-to-speech audio.
+- Photo upload reading handler.
 
-### 3. Continuous Sign-to-Text Translator (`#translator`)
+### 3. Phrases & Voice (`#translator`)
 - Live sentence stream buffer with blinking terminal cursor.
-- Speech synthesis with speed/pitch controls.
+- Speech synthesis for anything transcribed.
 - Persistent translation history ledger stored in `localStorage`.
 - One-click `.txt` transcript file export.
 
-### 4. Interactive Learning Academy (`#learn`)
-- Complete A-Z ASL Alphabet dictionary with hand posture guides.
-- Categorized vocabulary (Greetings, Daily Living, Numbers, Emergency, Family).
-- Interactive flashcards with 3D details.
-- Assessment Quiz Engine with 5 timed MCQs, score calculation, and celebration modal.
+### 4. Learning Academy (`#learn`)
+- Complete A-Z alphabet dictionary with hand posture guides.
+- Numbers 0-10 with hand-shape diagrams.
+- Categorized vocabulary (Greetings, Daily Living, Help).
+- Interactive flashcards with hand-shape diagrams.
+- Assessment Quiz Engine with 5 timed visual questions, score calculation, and celebration modal.
 
-### 5. Accessible Emergency Communication Board (`#emergency`)
-- High-contrast, large tactile SOS tiles (Medical, Police, Fire, Family, Assist).
-- Priority Web Speech loud voice broadcasting.
-- High-visibility visual strobe flash animation.
-- Web Audio API Siren / Alarm Tone Generator (`AudioContext`).
-- Simulated emergency GPS & SMS contact dispatcher.
+### 5. Accessible Help Board (`#emergency`)
+- Large tactile help tiles (Medical, Police, Fire, Family, Assist).
+- Web Speech voice broadcasting.
+- Gentle visual flash animation.
+- Web Audio API chime generator (`AudioContext`).
 
 ### 6. Student Dashboard (`#dashboard`)
 - Lesson completion progress tracker.
@@ -57,43 +54,38 @@ Communication barriers between the deaf/mute community and hearing society creat
 - Weekly progress line chart with Chart.js.
 - Personalized learning recommendations.
 
-### 7. Admin & System Telemetry Dashboard (`#admin`)
-- System KPI tiles (Total users, active inferences, latency).
-- Model Architecture Benchmark Bar Chart (MediaPipe + LSTM vs Baseline CNN).
-- Dataset Distribution Doughnut Chart.
+### 7. Studio Panel (`#admin`)
+- System tiles (registered users, live sessions, readings).
+- Reading steadiness bar chart.
+- Sign coverage doughnut chart.
 - User management table with search filter and delete actions.
 
-### 8. AI Innovation & Machine Learning Architecture (`#ai-innovation`)
-- Interactive 5-Stage Machine Learning Pipeline.
-- Multi-class Confusion Matrix evaluation table.
-- Mathematical formulation of landmark normalization.
+### 8. How It Reads (`#ai-innovation`)
+- Plain-language 5-step pipeline from hand to word.
+- Sample evaluation table.
+- Landmark normalization explanation.
 - Hardware & software deployment specifications.
 
-### 9. AI Sign Tutor Chatbot Widget
-- Floating AI assistant icon.
-- Natural language intent matching for vocabulary lookup and model explanations.
+### 9. Sign Tutor Chatbot Widget
+- Floating tutor button.
+- Natural language intent matching for vocabulary lookup and studio guidance.
 - One-click prompt suggestions.
 
-### 10. Automated Certificate of Completion
-- High-resolution HTML5 Canvas diploma certificate.
-- Rendered with gold borders, recipient name, verification ID, and signature.
+### 10. Certificate of Completion
+- High-resolution HTML5 Canvas certificate.
+- Rendered with recipient name, date, and verification note.
 - 1-click download as PNG.
-
-### 11. Final Year Major Project Report & Viva Q&A Modal
-- Executive Synopsis, Problem Statement, Objectives, and SRS.
-- Detailed System Architecture diagram.
-- 20+ Viva Voce questions & answers for oral examination defense.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies Used |
 |---|---|
-| **Frontend Framework** | Pure HTML5, Modern CSS3 (Glassmorphism & CSS Variables), JavaScript ES6+ |
-| **Styling & Theming** | Custom CSS System, Dark/Light Mode, Responsive Grid |
-| **Icons & Typography** | FontAwesome 6.4, Google Fonts (*Outfit*, *Plus Jakarta Sans*, *Fira Code*) |
-| **Computer Vision** | Google MediaPipe 21 3D Hand Skeletal Landmark Architecture |
+| **Frontend Framework** | Pure HTML5, Modern CSS3 (CSS Variables), JavaScript ES6+ |
+| **Styling & Theming** | Custom CSS System, Light/Dark Mode, Responsive Grid |
+| **Icons & Typography** | FontAwesome 6.4, Google Fonts (*Bodoni Moda*, *Inter*) |
+| **Hand Tracking** | MediaPipe HandLandmarker (21 landmarks, on-device) |
 | **Audio & Speech** | W3C Web Speech Synthesis API & HTML5 Web Audio API (`AudioContext`) |
 | **Data Visualization** | Chart.js 4.4 (Line, Bar, Doughnut charts) |
 | **Document Generation**| HTML5 Canvas API (High-res PNG Certificate rendering) |
@@ -101,41 +93,36 @@ Communication barriers between the deaf/mute community and hearing society creat
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-Sign Language Recognition/
-├── index.html                   # Master SPA entry point containing all 11 modules
+Gestura/
+├── index.html                   # SPA entry point with all views
 ├── server.py                    # 1-click Python local server & auto-browser launcher
-├── README.md                    # Project documentation & Viva Voce preparation guide
+├── README.md                    # Project documentation
 ├── css/
-│   ├── style.css               # Core design system, glassmorphism, responsive grid, dark mode
-│   └── modules.css             # Module-specific styles (HUD, cards, emergency board, chatbot)
+│   ├── style.css               # Core design system, responsive grid, themes
+│   └── modules.css             # Module-specific styles (mirror, cards, help board, chatbot)
 ├── js/
 │   ├── app.js                  # Master router, theme controller, speech wrapper, toast system
 │   ├── auth.js                 # Authentication & user profile state manager
-│   ├── recognizer.js           # Live webcam tracker, landmark skeleton canvas renderer, classifier
-│   ├── translator.js           # Continuous sign-to-text sentence stream & history ledger
-│   ├── learning.js             # Curriculum dictionary, flashcard modal & 5-question timed quiz
+│   ├── recognizer.js           # Live webcam tracker, landmark canvas renderer, classifier
+│   ├── translator.js           # Phrase stream, speech & history ledger
+│   ├── learning.js             # Curriculum dictionary, hand-shape diagrams, 5-question timed quiz
 │   ├── dashboard.js            # Student analytics & Chart.js progress graph
-│   ├── admin.js                # Admin telemetry, model benchmarks & user table
-│   ├── emergency.js            # Emergency SOS board, siren audio generator & strobe alerts
-│   ├── chatbot.js              # Interactive AI Sign Tutor assistant with NLP intent matcher
-│   ├── certificate.js          # Dynamic HTML5 Canvas certificate renderer & PNG exporter
-│   └── report.js               # Final Year Project Report & Viva Voce question bank
+│   ├── admin.js                # Studio panel, steadiness benchmarks & user table
+│   ├── emergency.js            # Help board, chime generator & flash alerts
+│   ├── chatbot.js              # Sign Tutor assistant with intent matcher
+│   └── certificate.js          # Dynamic HTML5 Canvas certificate renderer & PNG exporter
 ├── assets/                     # Media & asset directory
 └── backend/                    # Backend services directory
 ```
 
 ---
 
-## 💻 How to Run the Project
+## How to Run the Project
 
-### Method 1: Direct Browser Launch (Simplest)
-1. Open the folder `C:\Users\hp\OneDrive\Desktop\Sign Language Recognition\`.
-2. Double-click **`index.html`** in any modern web browser (Google Chrome, Microsoft Edge, Safari, or Firefox).
-
-### Method 2: Using the Python Server Launcher
+### Method 1: Using the Python Server Launcher (Recommended)
 1. Open a terminal or PowerShell in this folder:
    ```bash
    cd "C:\Users\hp\OneDrive\Desktop\Sign Language Recognition"
@@ -143,20 +130,12 @@ Sign Language Recognition/
    ```
 2. The server will automatically start at `http://localhost:5500/index.html` and open in your default browser.
 
----
-
-## 🎓 Viva Voce Key Defense Highlights
-
-1. **Why MediaPipe landmarks instead of raw CNN image inputs?**  
-   *Answer:* Raw image inputs are sensitive to skin tone, lighting conditions, and background noise. MediaPipe extracts 21 geometric 3D coordinate pairs, reducing dimensional complexity from millions of pixels to 63 invariant coordinates, enabling real-time 60 FPS inference in browsers.
-
-2. **How does landmark normalization work?**  
-   *Answer:* Coordinates are translated to the wrist joint as origin $(0,0,0)$ and scaled by the maximum distance from wrist to fingertip, making recognition invariant to hand distance and camera angles.
-
-3. **How does the system handle continuous signs?**  
-   *Answer:* Temporal sequence models (LSTM) capture trajectories across consecutive frame windows, accumulating recognized gestures into grammatical sentences.
+### Method 2: Direct Browser Launch
+1. Open the project folder.
+2. Double-click **`index.html`** in any modern web browser (Google Chrome, Microsoft Edge, Safari, or Firefox).
+3. Note: camera access and the hand-tracking model load most reliably over `http://localhost:5500` (Method 1).
 
 ---
 
-## 📄 License & Academic Note
-*Developed as an Academic Final Year Diploma Major Project Prototype. All code, UI components, and mock ML pipelines are structured for educational defense, presentations, and viva examinations.*
+## License
+*Built as a sign language learning studio. All code and UI components are structured for real everyday use — learning, practicing, and communicating.*
