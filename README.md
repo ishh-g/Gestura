@@ -1,4 +1,4 @@
-# Gestura — Sign Language Studio
+# Gestura - Sign Language Studio
 > *A warm, responsive web application for learning sign language, practicing with a live mirror, translating phrases into speech, and tracking progress.*
 
 ---
